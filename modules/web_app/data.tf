@@ -14,8 +14,22 @@ data "aws_subnets" "public" {
  }
 }
 
+data "aws_subnets" "private" {
+  filter {
+    name = "vpc-id"
+    values = [var.vpc_id]
+  }
+  filter {
+    name = "tag:Name"
+    values = ["*private*"]
+  }
+  
+}
+
 data "aws_ami" "amazon_linux_2023" {
 
+  most_recent = true
+  
   owners = ["amazon"]
 
   filter {
@@ -23,6 +37,6 @@ data "aws_ami" "amazon_linux_2023" {
     values = ["al2023-ami-*"]
   }
 
-  most_recent = true
+  
 
 }
